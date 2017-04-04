@@ -1,0 +1,25 @@
+{
+  "name": "BackboneApp",
+  "version": "1.0.0",
+  "author": "Type your name here",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "eslint": "^3.10.1",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-config-airbnb-es5": "^1.1.0",
+    "eslint-plugin-backbone": "^2.0.2",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.7.0",
+    "grunt": "^0.4.5",
+    "grunt-available-tasks": "^0.6.1",
+    "grunt-cli": "~0.1.13",
+    "grunt-contrib-jade": "^0.15.0",
+    "load-grunt-tasks": "^3.3.0"
+  },
+  "scripts": {
+    "build": "grunt jade",
+    "lint": "eslint ./js"
+  }
+}

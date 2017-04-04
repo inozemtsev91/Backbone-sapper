@@ -1,0 +1,116 @@
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+  color: #333;
+  font: 14px/24px Arial, serif;
+  position: relative;
+}
+
+.app {
+  margin: 40px;
+  padding: 40px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+  background: #fff;
+  border-radius: 3px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+.opened {
+  margin-right: 20px;
+}
+.flags {
+  margin-left: 20px;
+}
+.opened-value,
+.flags-value {
+  font-weight: bold;
+}
+
+.field-wrapp {
+  width: 200px;
+  height: 200px;
+  border: 2px solid #ccc;
+  margin: 20px auto;
+}
+
+.cell {
+  position: relative;
+  float: left;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  background: #ddd;
+  box-shadow: inset -2px -2px 3px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0;
+}
+.cell.is-bomb::before {
+  background: black;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  z-index: 1;
+}
+.cell.is-bomb::after {
+  background-color: #777;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+}
+.cell.is-bomb::before,
+.cell.is-bomb::after {
+  content: "";
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+.cell.is-flag {
+  background: green;
+}
+.cell.is-flag.is-opened {
+  background: #ecbcbc;
+}
+.cell.is-flag.is-opened::before {
+  content: '';
+  box-shadow: 1px 1px 0 #000;
+}
+.cell.is-flag.is-bomb.is-opened {
+  background: #9ad29a;
+}
+.cell.is-opened {
+  cursor: default;
+  background: #fff;
+  font-size: 18px;
+}
+.cell.is-opened.is-bomb::before,
+.cell.is-opened.is-bomb::after {
+  display: block;
+}
+.cell.bang {
+  background: red;
+  box-shadow: none;
+}
