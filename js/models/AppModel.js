@@ -11,26 +11,26 @@ var AppModel = Backbone.Model.extend({
     },
 
     initialize: function() {
-        this.cells = new CellsCollection();
-        this.cellsWithBombs = this.createArrayOfRandomNumbers(0, (this.get('width') * this.get('height') - 1), this.get('mines'));
-        this.fillCellsCollection();
+        // this.cells = new CellsCollection({
+        //     width: this.get('width'),
+        //     height: this.get('height')
+        // });
+        this.cells = new CellsCollection({});
+        this.cellsWithBombs = this.createArrayOfRandomNumbers(this.get('mines'));
+        // console.log(this.cells);
+        // this.cells.fillCells();
         // this.setBombs();
     },
 
-    fillCellsCollection: function() {
-
-        for (var x = 0; x < this.get('height'); x++) {
-            for (var y = 0; y < this.get('width'); y++) {
-                this.cells.add({x: x, y: y});
-            }
-        }
-
-    },
+    
 
     // Function for creating array of random numbers
     createArrayOfRandomNumbers: function(min, max, count) {
 
-        var totalNumbers = max - min + 1;
+        var MIN = 0;
+        var MAX = this.get('width') * this.get('height') - 1;
+
+        var totalNumbers = MAX - MIN + 1;
         var arrayTotalNumbers = [];
         var arrayRandomNumbers = [];
         var tempRandomNumber;
