@@ -11,27 +11,19 @@ var AppModel = Backbone.Model.extend({
     },
 
     initialize: function() {
-        this.collection = new CellsCollection();
-        this.addCellsInCollection();
+        this.cells = new CellsCollection();
         this.cellsWithBombs = this.createArrayOfRandomNumbers(0, (this.get('width') * this.get('height') - 1), this.get('mines'));
-        this.addBombs();
+        this.fillCellsCollection();
+        // this.setBombs();
     },
 
-    addCellsInCollection: function() {
+    fillCellsCollection: function() {
 
-        this.listOfCells = [];
-
-        for (var i = 0; i < this.attributes.height; i++) {
-            for (var j = 0; j < this.attributes.width; j++) {
-                var cell = new CellModel({
-                    x: j,
-                    y: i
-                });
-                this.listOfCells.push(cell);
+        for (var x = 0; x < this.get('height'); x++) {
+            for (var y = 0; y < this.get('width'); y++) {
+                this.cells.add({x: x, y: y});
             }
         }
-
-        this.collection.add(this.listOfCells)
 
     },
 
@@ -57,11 +49,11 @@ var AppModel = Backbone.Model.extend({
 
     },
 
-    addBombs: function () {
-        for (var i = 0; i <= this.cellsWithBombs.length - 1; i++) {
+    // setBombs: function () {
+    //     for (var i = 0; i <= this.cellsWithBombs.length - 1; i++) {
 
-            var elementWithBomb = this.listOfCells[this.cellsWithBombs[i]];
-            elementWithBomb.set('isMine', true);
-        }
-    }
+    //         var elementWithBomb = this.listOfCells[this.cellsWithBombs[i]];
+    //         elementWithBomb.set('isMine', true);
+    //     }
+    // }
 });

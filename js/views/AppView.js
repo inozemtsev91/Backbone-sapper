@@ -4,22 +4,20 @@
 
 var AppView = Backbone.View.extend({
 
+    CELL_SIZE: 40,
+
     regions: {
         controls: '#controls',
         field: '#field'
     },
 
-    initialize: function() {
-
-    },
-
     render: function() {
-        this.$el.html(tpl.render('App', {}));
-        this.regions.controls.render(ControlsView, {});
+        this.$el.html(tpl.render('App'));
+        this.regions.controls.render(ControlsView);
 
         this.setFieldSize();
 
-        this.model.collection.each(function(model) {
+        this.model.cells.each(function(model) {
             this.regions.field.addWidget(CellView);
         }.bind(this));
         this.regions.field.renderWidgets();
@@ -28,8 +26,9 @@ var AppView = Backbone.View.extend({
     },
 
     setFieldSize: function() {
-        this.$('._fieldWrapp').width(this.model.get('width') * 40);
-        this.$('._fieldWrapp').height(this.model.get('height') * 40);
+        this.$('._fieldWrapp')
+        .width(this.model.get('width') * this.CELL_SIZE)
+        .height(this.model.get('height') * this.CELL_SIZE);
     }
 
 });
