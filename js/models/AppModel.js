@@ -11,21 +11,23 @@ var AppModel = Backbone.Model.extend({
     },
 
     initialize: function() {
-        // this.cells = new CellsCollection({
-        //     width: this.get('width'),
-        //     height: this.get('height')
-        // });
-        this.cells = new CellsCollection({});
+        this.cells = new CellsCollection();
         this.cellsWithBombs = this.createArrayOfRandomNumbers(this.get('mines'));
-        // console.log(this.cells);
-        // this.cells.fillCells();
-        // this.setBombs();
+        this.fillCells();
+        this.setBombs();
     },
 
-    
+    fillCells: function() {
+
+        for (var x = 0; x < this.get('height'); x++) {
+            for (var y = 0; y < this.get('width'); y++) {
+                this.cells.add({x: x, y: y});
+            }
+        }
+    },
 
     // Function for creating array of random numbers
-    createArrayOfRandomNumbers: function(min, max, count) {
+    createArrayOfRandomNumbers: function(count) {
 
         var MIN = 0;
         var MAX = this.get('width') * this.get('height') - 1;
@@ -36,7 +38,7 @@ var AppModel = Backbone.Model.extend({
         var tempRandomNumber;
 
         while (totalNumbers--) {
-            arrayTotalNumbers.push(totalNumbers + min);
+            arrayTotalNumbers.push(totalNumbers + MIN);
         }
 
         while (count--) {
@@ -49,11 +51,11 @@ var AppModel = Backbone.Model.extend({
 
     },
 
-    // setBombs: function () {
-    //     for (var i = 0; i <= this.cellsWithBombs.length - 1; i++) {
+    setBombs: function () {
+        for (var i = 0; i <= this.cellsWithBombs.length - 1; i++) {
 
-    //         var elementWithBomb = this.listOfCells[this.cellsWithBombs[i]];
-    //         elementWithBomb.set('isMine', true);
-    //     }
-    // }
+            var elementWithBomb = this.cells.models[this.cellsWithBombs[i]];
+            elementWithBomb.set('isMine', true);
+        }
+    }
 });

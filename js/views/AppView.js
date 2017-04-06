@@ -12,15 +12,17 @@ var AppView = Backbone.View.extend({
     },
 
     render: function() {
+
         this.$el.html(tpl.render('App'));
+
         this.regions.controls.render(ControlsView);
 
         this.setFieldSize();
 
-        this.model.cells.each(function(model) {
-            this.regions.field.addWidget(CellView);
-        }.bind(this));
-        this.regions.field.renderWidgets();
+        this.regions.field.renderWidgets(
+            this.model.cells,
+            CellView
+        );
 
         return this;
     },
