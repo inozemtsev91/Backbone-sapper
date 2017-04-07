@@ -12,50 +12,63 @@ var AppModel = Backbone.Model.extend({
 
     initialize: function() {
         this.cells = new CellsCollection();
-        this.cellsWithBombs = this.createArrayOfRandomNumbers(this.get('mines'));
         this.fillCells();
-        this.setBombs();
+        console.log(this.cells.length);
     },
 
     fillCells: function() {
+
+        var MAX = this.get('width') * this.get('height') - 1;
 
         for (var x = 0; x < this.get('height'); x++) {
             for (var y = 0; y < this.get('width'); y++) {
                 this.cells.add({x: x, y: y});
             }
         }
-    },
 
-    // Function for creating array of random numbers
-    createArrayOfRandomNumbers: function(count) {
+        for(var i = 0; i < this.get('mines'); i++) {
+            var randomCell = Math.round(Math.random() * MAX);
+            var currentCell = this.cells.at(randomCell); 
 
-        var MIN = 0;
-        var MAX = this.get('width') * this.get('height') - 1;
-
-        var totalNumbers = MAX - MIN + 1;
-        var arrayTotalNumbers = [];
-        var arrayRandomNumbers = [];
-        var tempRandomNumber;
-
-        while (totalNumbers--) {
-            arrayTotalNumbers.push(totalNumbers + MIN);
+            if(!currentCell.get('isMine')) {
+                currentCell.set('isMine', true);
+            } else {
+                i--;
+            }
         }
 
-        while (count--) {
-            tempRandomNumber = Math.round(Math.random() * (arrayTotalNumbers.length - 1));
-            arrayRandomNumbers.push(arrayTotalNumbers[tempRandomNumber]);
-            arrayTotalNumbers.splice(tempRandomNumber, 1);
-        }
+        // // Function added count of bombs arround cell
+        // var bombsCount;
 
-        return arrayRandomNumbers;
+        // for (var i = 0; i < height; i++) {
+        //     for (var j = 0; j < width; j++) {
+        //         if (arr[i][j]['isBomb']) continue;
 
-    },
+        //         bombsCount = 0;
 
-    setBombs: function () {
-        for (var i = 0; i <= this.cellsWithBombs.length - 1; i++) {
+        //         var start = {
+        //             y: (i - 1 >= 0) ? i - 1 : i,
+        //             x: (j - 1 >= 0) ? j - 1 : j
+        //         };
+        //         var end = {
+        //             y: (i + 1 > width - 1) ? i : i + 1,
+        //             x: (j + 1 > width - 1) ? j : j + 1
+        //         };
 
-            var elementWithBomb = this.cells.models[this.cellsWithBombs[i]];
-            elementWithBomb.set('isMine', true);
-        }
+        //         for (var m = start.y; m <= end.y; m++) {
+        //             for (var n = start.x; n <= end.x; n++) {
+        //                 if (arr[m][n]['isBomb']) {
+        //                     bombsCount++
+        //                 }
+        //             }
+        //         }
+
+        //         arr[i][j].node.data('value', bombsCount);
+        //         if (bombsCount > 0) arr[i][j].node.text(bombsCount);
+
+        //     }
+        // }
+
     }
+
 });
