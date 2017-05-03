@@ -36,9 +36,9 @@ window.app = new Backbone.App({
     ready: function() {
         window.test = this.regions.app.render(AppView, {
             model: new AppModel({
-                width: 9,
-                height: 9,
-                mines: 10
+                width: 3,
+                height: 3,
+                mines: 2
             })
         });
     }

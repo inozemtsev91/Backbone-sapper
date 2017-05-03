@@ -13,15 +13,19 @@ var AppModel = Backbone.Model.extend({
     initialize: function() {
         this.cells = new CellsCollection();
         this.fillCells();
-        console.log(this.cells.length);
+        // console.log(this.cells.models);
     },
 
     fillCells: function() {
 
-        var MAX = this.get('width') * this.get('height') - 1;
+        var width = this.get('width');
+        var height = this.get('height');
+        var MAX = width * height - 1;
+        var bombsCount;
+        var arr = [];
 
-        for (var x = 0; x < this.get('height'); x++) {
-            for (var y = 0; y < this.get('width'); y++) {
+        for (var x = 0; x < height; x++) {
+            for (var y = 0; y < width; y++) {
                 this.cells.add({x: x, y: y});
             }
         }
@@ -37,7 +41,53 @@ var AppModel = Backbone.Model.extend({
             }
         }
 
-        // // Function added count of bombs arround cell
+        // console.log(this.cells.models);
+        var full = [];
+        var part = [];
+
+        for (var k = 0; k < height; k++) {
+            for (var l = 0; l < width; l++) {
+                full.push(this.cells.models[k * width + l]);
+                if (this.cells.models[k * width + l ].get('isMine')) continue;
+                arr.push(this.cells.models[k * width + l]);
+            }
+
+            bombsCount = 0;
+
+            var start = {
+                y: (k - 1 >= 0) ? k - 1 : k,
+                x: (l - 1 >= 0) ? l - 1 : l
+            };
+            var end = {
+                y: (k + 1 > width - 1) ? k : k + 1,
+                x: (l + 1 > width - 1) ? l : l + 1
+            };
+
+            for (var m = start.y; m <= end.y; m++) {
+                for (var n = start.x; n <= end.x; n++) {
+                    part.push(this.cells.models[m * width + n ]);
+                    // console.log(start.y, end.y, start.x, end.x );
+                    // console.log(start.y, end.y, start.x, end.x );
+                    // if(!this.cells.models[m * width + n ]) {
+                    //     console.log(start.y, end.y, start.x, end.x );
+                    // }
+                    if(!this.cells.models[m * width + n ]) continue;
+                    if (this.cells.models[m * width + n ].get('isMine')) {
+                        bombsCount++;
+                    }
+                }
+            }
+
+            // console.log(this.cells.models[k * width + l ].get('countOfMinesAround'));
+            // this.cells.models[k * width + l ].set('countOfMinesAround', 'bombsCount');
+            // arr[i][j].node.data('value', bombsCount);
+            // if (bombsCount > 0) arr[i][j].node.text(bombsCount);
+        }
+
+        console.log(full);
+        console.log(part);
+
+        // Function added count of bombs arround cell
         // var bombsCount;
 
         // for (var i = 0; i < height; i++) {
