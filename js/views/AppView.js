@@ -15,7 +15,9 @@ var AppView = Backbone.View.extend({
 
         this.$el.html(tpl.render('App'));
 
-        this.regions.controls.render(ControlsView);
+        this.regions.controls.render(ControlsView, {
+            model: this.model
+        });
 
         this.setFieldSize();
 

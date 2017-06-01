@@ -38,7 +38,7 @@ window.app = new Backbone.App({
             model: new AppModel({
                 width: 5,
                 height: 5,
-                mines: 8
+                mines: 4
             })
         });
     }
