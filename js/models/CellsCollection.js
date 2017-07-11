@@ -10,8 +10,8 @@ var CellsCollection = Backbone.Collection.extend({
         this.width = options.width;
         this.height = options.height;
         this.mines = options.mines;
+        this.app = options.app;
         this.fillTheField();
-        // this.on('change:isOpened', this.checkOpenedCell);
     },
 
     fillTheField: function() {
@@ -72,65 +72,25 @@ var CellsCollection = Backbone.Collection.extend({
 
     },
 
-    checkOpenedCell: function(model) {
-        // this.forEach(function(element, index, list) {
-        //     console.log(!!element.get('countOfMinesAround'));
-        //     // if (!element.get('countOfMinesAround') && element.get('isOpened')) {
-        //     //     this.openSibling(element.get('x'), element.get('y'));
-        //     // }
-        // }.bind(this));
-        if(!model.get('countOfMinesAround') && !model.get('isMine')) {
-            this.openSibling
-        }
-    },
-
+    // Open nearest cells if was opened empty cell
     openNearestCells: function(x, y) {
         var width = this.width;
         var height = this.height;
 
-        // for (var i = -1; i < 2; i++) {
-        //     for (var j = -1; j < 2; j++) {
+        var start = {
+            x: (x - 1 > -1) ? x - 1 : x,
+            y: (y - 1 > -1) ? y - 1 : y
+        };
+        var end = {
+            x: (x + 1 >= width) ? x : x + 1,
+            y: (y + 1 >= height) ? y : y + 1
+        };
 
-        //         var $temp = $('[data-x=' + (x + i) + '][data-y=' + (y + j) + ']');
-        //         if (!$temp.length || $temp.hasClass('is-opened') || $temp.hasClass('is-flag')) continue;
-        //         $temp.addClass('is-opened');
-        //         if ($temp.data('value') === 0) {
-        //             $temp.openNearestCells(); // if field will be really big, this function will work slow
-        //         }
-        //     }
-        // }
-
-        // for (var i = -1; i < 2; i++) {
-        //     for (var j = -1; j < 2; j++) {
-
-        //         var currentCell = this.at(i*width + j);
-
-        //         if (!currentCell || currentCell.get('countOfMinesAround')) continue;
-        //         currentCell.set('isOpened', true);
-        //         if (!currentCell.get('countOfMinesAround')) {
-        //             this.openNearestCells(); // if field will be really big, this function will work slow
-        //         }
-        //     }
-        // }
-
-        // var start = {
-        //     y: (y - 1 >= 0) ? y - 1 : y,
-        //     x: (x - 1 >= 0) ? x - 1 : x
-        // };
-        // var end = {
-        //     y: (y + 1 > width - 1) ? y : y + 1,
-        //     x: (x + 1 > width - 1) ? x : x + 1
-        // };
-
-        // for (var i = start.x; i <= end.x; i++) {
-        //     for (var j = start.y; j <= end.y; j++) {
-        //         var currentCell = this.at(i*width + j);
-        //         currentCell.set('isOpened', true);
-        //         if(!this.at(i*width + j).get('countOfMinesAround')) {
-        //             this.openNearestCells(currentCell.get('x'), currentCell.get('y'));
-        //         }
-        //     }
-        // }
+        for (var i = start.y; i <= end.y; i++) {
+            for (var j = start.x; j <= end.x; j++) {
+                this.at(i*width + j).set('isOpened', true);
+            }
+        }
     }
 
 });
